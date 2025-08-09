@@ -10,8 +10,8 @@ import os
 
 load_dotenv()
 
-email_remetente = os.getenv('email_remetente')
-senha_remetente = os.getenv('senha_remetente')
+email_remetente = os.getenv('EMAIL_REMETENTE')
+senha_remetente = os.getenv('SENHA_REMETENTE')
 
 def enviar_certificado_por_email(nome_destinatario, email_destinatario, caminho_pdf, link_validacao):
     """Envia um e-mail com o certificado para o destinatário."""

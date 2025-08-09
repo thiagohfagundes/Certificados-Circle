@@ -1,12 +1,12 @@
+import os
+from datetime import date
 from fastapi import FastAPI, Request
-from funcoes_certificado import *
-from funcoes_supabase import *
-from funcoes_email import *
-from funcoes_circle import *
+from funcoes.funcoes_certificado import *
+from funcoes.funcoes_supabase import *
+from funcoes.funcoes_email import *
+from funcoes.funcoes_circle import *
 
 app = FastAPI()
-
-from datetime import date
 
 @app.post("/webhook")
 async def receber_webhook(request: Request):
@@ -37,16 +37,16 @@ async def receber_webhook(request: Request):
     codigo = registrar_certificado(client, nome, curso, carga_horaria, data_emissao, data_certificacao, id_usuario)
 
     # Gera o pdf do certificado
-    gerar_certificado_com_pdf_fundo(nome, curso, carga_horaria, data_certificacao, data_emissao, codigo, "modelo.pdf", "certificado.pdf")
+    gerar_certificado_com_pdf_fundo(nome, curso, carga_horaria, data_certificacao, data_emissao, codigo, "static/modelo.pdf", "static/certificado.pdf")
 
     # Sobe o certificado no storage do Supabase e armazena a url
-    url = subir_pdf_para_supabase(client, "certificado.pdf", f"{codigo}_{nome}_certificacao_financeiro_basico.pdf")
+    url = subir_pdf_para_supabase(client, "static/certificado.pdf", f"{codigo}_{nome}_certificacao_financeiro_basico.pdf")
 
     # Atualiza o certificado no banco com a url
     atualizar_url_certificado(client, codigo, url)
 
     # Enviar certificado por e-mail para o(a) estudante
-    enviar_certificado_por_email(nome, email, "certificado.pdf", codigo)
+    enviar_certificado_por_email(nome, email, "static/certificado.pdf", codigo)
 
     # Aqui você pode processar e armazenar os dados recebidos
     return {"status": "ok"}

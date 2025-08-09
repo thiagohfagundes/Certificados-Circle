@@ -7,7 +7,7 @@ def dados_do_usuario_circle(id):
   """Retorna os dados do usuário Circle a partir do ID."""
   url = f"https://app.circle.so/api/admin/v2/community_members/{id}"
 
-  token_circle = os.getenv('token_circle')
+  token_circle = os.getenv('TOKEN_CIRCLE')
 
   headers = {
       "Authorization": f"Bearer {token_circle}",
